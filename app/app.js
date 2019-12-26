@@ -16,7 +16,7 @@ var express = require('express');
 var app = express();
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.send('<table style="border:3px #cccccc solip;"border="1"><tr><td>Name</td><td>Nokto</td></tr><tr><td>Number</td><td>123</td></tr><tr><td>School</td><td>KNU</td></tr></table>');
 });
 
 app.listen(3000, function () {
