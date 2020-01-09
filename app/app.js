@@ -14,6 +14,43 @@
 
 var express = require('express');
 var app = express();
+
+
+//test
+const https = require('https');
+
+app.get('/', function (req, res) {
+  var mytag='';
+  https.get('https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_2330.tw&json=1&delay=0&_=1577942519971', (resp) => {
+    let data = '';
+
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+        data += chunk;
+    });
+
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+        mytag='<html><body><table border=1><tr><td>公司</td><td>'+JSON.parse(data).msgArray['0'].n
+        + '</td></tr><tr><td>開盤</td><td>' + JSON.parse(data).msgArray['0'].o
+        + '</td></tr><tr><td>最高價</td><td>' + JSON.parse(data).msgArray['0'].h
+        + '</td></tr><tr><td>成交價</td><td>'+ JSON.parse(data).msgArray['0'].z
+        + '</td></tr></table></body></html>';
+        res.send(mytag);
+    });
+
+    }).on("error", (err) => {
+    console.log("Error: " + err.message);
+    });
+
+});
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
+});
+
+//test
+
 /*
 var request = require('request');
 
@@ -26,9 +63,9 @@ request('https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_2330.tw&js
 });*/
 
 
-var fs = require('fs');
+//var fs = require('fs');
 
-var url = 'https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_2330.tw&json=1&delay=0&_=1578290584600';
+//var url = 'https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_2330.tw&json=1&delay=0&_=1578290584600';
 /*
 app.use('/public', express.static(__dirname + '/public'));
 
@@ -60,7 +97,7 @@ app.get('/post/:id', function(req, res, next){
     }
   })
 });*/
-
+/*
 app.get(url, function(response){
     var data = '';
 
@@ -78,13 +115,13 @@ app.get(url, function(response){
     response.send('<table style="border:3px #cccccc solip;"border="1"><tr><td>台積電</td><td>???</td></tr></table>');
 }).on('error', function(e){
     console.log("error: ",e)
-});
+});*/
 
 
 /*app.get('/', function (req, res) {
   res.send('<table style="border:3px #cccccc solip;"border="1"><tr><td>Name</td><td>Nokto</td></tr><tr><td>Number</td><td>123</td></tr><tr><td>School</td><td>KNU</td></tr></table>');
 });
 */
-app.listen(3000, function () {
+/*app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
-});
+});*/
